@@ -1,6 +1,8 @@
 package com.ciandt.investment.core.domain;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 public class InformeDiario {
 
@@ -14,7 +16,7 @@ public class InformeDiario {
     private static final int NR_COTST = 7;
 
     private String cnpj;
-    private String dataCompetencia;
+    private LocalDate dataCompetencia;
     private BigDecimal valorTotal;
     private BigDecimal valorCota;
     private BigDecimal valorPatrimonioLiquido;
@@ -27,7 +29,7 @@ public class InformeDiario {
         final String[] line = csvLine.split(";");
 
         this.cnpj = line[CNPJ_FUNDO];
-        this.dataCompetencia = line[DT_COMPTC];
+        this.dataCompetencia = LocalDate.parse(line[DT_COMPTC],DateTimeFormatter.ISO_DATE);
 
         this.valorTotal = BigDecimal.valueOf(new Double(line[VL_TOTAL]));
         this.valorCota = BigDecimal.valueOf(new Double(line[VL_QUOTA]));
@@ -43,7 +45,7 @@ public class InformeDiario {
         return cnpj;
     }
 
-    public String getDataCompetencia() {
+    public LocalDate getDataCompetencia() {
         return dataCompetencia;
     }
 
@@ -69,5 +71,9 @@ public class InformeDiario {
 
     public Integer getNumeroCotistas() {
         return numeroCotistas;
+    }
+    
+    public BigDecimal getCaptacaoLiquidaDia() {
+    	return captacaoDia.subtract(resgateDia);
     }
 }
